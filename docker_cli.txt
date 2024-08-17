@@ -1,0 +1,41 @@
+# build image
+- docker build {path_of_docker_file} / .(will look for any docker file to build)
+Example: 
+- docker build .
+- docker build -t my-express-app . -t image name
+
+# List all images
+- docker image ls 
+
+# Run container
+
+docker run --name {container_name}  {image_name}
+
+Examples:
+- docker run --name my-expres-app-container  my-express-app
+- docker run --name my-expres-app-container -d  my-express-app -d To detach the container console in the current terminal
+- docker run --name my-expres-app-container -d -p 4000:4000  my-express-app  -p to forward the port 4000 in my host machine to 4000 inside the container
+- docker run --name my-expres-app-container -v G:\Projects\Docker\docker:/app -d -p 4000:4000  my-express-app to Enable hot reload so docker container can detect changes in local files
+note: any changes in the container will be also done in the local file system and the opposite is right
+this type of volumes is called bind mount (two way binding)
+- docker run --name my-expres-app-container -v G:\Projects\Docker\docker:/app:ro -d -p 4000:4000  my-express-app
+Adding :ro --> read only so container can not write to the local file system
+- we still have a problem what if node_modules removed from local ?
+- so we need to restrict some files to be removed from the container even if its removed from local
+
+- docker run --name my-expres-app-container -v G:\Projects\Docker\docker:/app:ro -v /app/node_modules -d -p 4000:4000  my-express-app
+Instead of binding all the directory to the app we can bind only the src folder
+
+- 
+
+# List containers
+
+- docker ps
+
+# Remove container
+
+-  docker rm my-expres-app-container -f   -f to stop the container before deleting
+
+# Open interactive terminal for the container
+
+- docker exec -it my-expres-app-container bash
